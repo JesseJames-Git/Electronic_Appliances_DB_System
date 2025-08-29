@@ -27,7 +27,7 @@ class Product(Base):
     
     category = relationship('Product_category', back_populates='products')
     orders = relationship('Supply_orders', back_populates='products')
-    ordered_products = relationship('Orders')
+    ordered_products = relationship('Orders_item', back_populates='product_order')
 
 class Suppliers(Base):
     __tablename__ = 'suppliers'
@@ -61,7 +61,7 @@ class Customers(Base):
     phone = Column(String)
     address = Column(String)
 
-    customer_orders = relationship('Orders', back_populates='customers')
+    customer_orders = relationship('Orders', back_populates='customers_order')
 
 class Orders(Base):
     __tablename__ = 'orders'
@@ -71,7 +71,17 @@ class Orders(Base):
     order_date = Column(DateTime, nullable=False)
     order_status = Column(Boolean, nullable=False)
 
-    customers = relationship('Customers', back_populates='customer_orders')
-    
-    
+    customers_order = relationship('Customers', back_populates='customer_orders')
+    order_item = relationship('Order_items', back_populates='items_order')
+
+class Order_items(Base):
+    __tablename__ = 'order_items'
+
+    id = Column(Integer, primary_key=True)
+    order_id = Column(Integer, ForeignKey('orders.id'), nullable=False)
+    product_id = Column(Integer, ForeignKey('products.id'), nullable=False)
+    quantity = Column(Integer)
+
+    items_order = relationship('Orders', back_populates='order_item')
+    product_order = relationship('Product', back_populates="ordered_product")
     
