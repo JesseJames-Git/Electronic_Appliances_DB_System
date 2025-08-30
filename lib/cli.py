@@ -25,7 +25,8 @@ from crud import (
 
 while True:
     click.secho("-------------Welcome to the Electrical Appliances Database System------------", bold=True, fg='green')
-    click.secho("Select Option to Proceed", bold=True, fg='blue')
+    click.secho("Select Option  to Proceed", bold=True, fg='blue')
+    click.secho("Select using the option's number", faint=True, fg='cyan')
     click.secho("1. Suppliers")
     click.secho("2. Supply Orders")
     click.secho("3. Product Categories")
@@ -72,10 +73,243 @@ while True:
             except:
                 raise Exception(f"Error deleting {supplier_name}")
 
+
     if user_input == 2:
         click.secho("--------------  Supply Orders' Options  -----------")
         click.secho("1. Add New Supply Order")
         click.secho("2. View Supply Orders")
-        click.secho("3. Delete Supply Order")
+        click.secho("3. Update Order Status")
+        click.secho("4. Delete Supply Order")
 
-        if 
+        supply_order_option = click.prompt("Option")
+
+        if supply_order_option == 1:
+            click.secho("Adding New Supply Order.......")
+            prod_id = click.prompt("Enter Product ID")
+            quantity = click.prompt("Enter Quantity")
+            supplier = click.prompt("Enter Supplier ID")
+            status = click.prompt("Enter Order Status (Delivered or Not Delivered)", type=str)
+
+            try:
+                add_supply_order(prod_id, quantity, supplier, status="Not Delivered")
+                click.secho(f"New Supply Order has been added")
+            except:
+                raise Exception(f"Error adding New Supply Order")
+        
+        if supply_order_option == 2:
+            click.secho("Showing Supply Orders")
+            print (get_all_supply_orders)
+
+        if supply_order_option == 3:
+            click.secho("Updating Supply Order Status........")
+            supply_order_id = click.prompt("Enter Supply Order Id")
+
+            try:
+                update_supply_order_status(supply_order_id, "Delivered")
+                click.secho(f"Status of supply Order {supply_order_id} is now Delivered")
+            except:
+                raise Exception (f"Error updating order status")
+        
+        if supply_order_option == 4:
+            click.secho("Deleting Supply Order........")
+            supply_order_id = click.prompt("Enter Supply Order ID")
+
+            try:
+                delete_supply_order(supply_order_id)
+                click.secho("Supply Order has been deleted successfully ")
+            except:
+                raise Exception ('Error deleting supply order')
+            
+    if user_input == 3:
+        click.secho("----------------- Product Category ----------------")
+        click.secho("Select an option:")
+        click.secho("1. Add Product Category")
+        click.secho("2. View all Product Categories")
+        click.secho("3. Delete Category Product")
+
+        category_option = click.prompt("Option")
+
+        if category_option == 1:
+            click.secho("Adding New Category......")
+            name = click.prompt("Enter category name")
+            quantity_in_stock = click.prompt("Enter Stock Quantity")
+            description = click.prompt("Describe the Category")
+
+            try:
+                add_product_category(name, quantity_in_stock, description)
+                click.secho(f"{name} category has been added!!!")
+            except:
+                raise Exception(f"{name} addition has failed.")
+            
+        if category_option == 2:
+            click.secho("Viewing Product Categories.....")
+            print(get_product_categories())
+
+        if category_option == 3:
+            click.secho("Deleting a product category......")
+            name = click.secho("Enter Existing Category Name")
+
+            try:
+                delete_product_category(name)
+                click.secho(f"{name} category has been deleted successfully")
+            except:
+                raise Exception(f"{name} deletion has failed.")
+            
+    if user_input == 4:
+        click.secho("------------------- Products -----------------")
+        click.secho("Select an Option")
+        click.secho("1. Add Product")
+        click.secho("2. View all Products")
+        click.secho("3. Delete Product")
+
+        product_option = click.prompt("Option")
+
+        if product_option == 1:
+            click.secho("Adding new product.......")
+            name = click.prompt("Enter Product Name")
+            brand = click.prompt("Enter Brand Name")
+
+            click.secho("The product is available in stock")
+            available = click.prompt("1. True")
+            not_available = click.prompt("2. False")
+
+            if available:
+                availability = True
+            if not_available:
+                availability = False
+            
+            category_id = click.prompt("Enter Categoty ID(Optional)")
+            description = click.prompt("Enter Description(Optional)")
+
+        if product_option == 2:
+            click.secho("Viewing All Products.......")
+            print(get_all_products())
+        
+        if product_option == 3:
+            click.secho("Deleting Product.......")
+            product_name = click.prompt("Enter Product Name")
+
+            try:
+                delete_product(product_name)
+                click.secho(f"{name} has been deleted")
+            except:
+                raise Exception("Error during deletion")
+            
+    if user_input == 5:
+        click.secho("--------------- Customers -----------------")
+        click.secho("Select an Option:")
+        click.secho("1. Add Customer")
+        click.secho("2. View Customers")
+        click.secho("3. Delete Customer")
+
+        customer_option = click.prompt("Option")
+            
+        if customer_option == 1:
+            click.secho("Adding Customer.......")
+            first_name = click.prompt("Enter first name")
+            last_name = click.prompt("Enter last name")
+            email = click.prompt("Enter email")
+            phone = click.prompt("Enter phone number(Optional)")
+            address = click.prompt("Enter Address(Optional)")
+
+            try:
+                add_customer(first_name, last_name, email, phone, address)
+                click.secho(f"{first_name} {last_name} has been added successfully")
+            except:
+                raise Exception("Error during addition")
+        
+        if customer_option == 2:
+            click.secho("Viewing Customers.......")
+            print(get_customers)
+
+        if customer_option == 3:
+            click.secho("Deleting Customer.......")
+            customer_first_name = click.prompt("Enter Customer's First Name")
+
+            try:
+                delete_customer(customer_first_name)
+                click.secho(f"{customer_first_name} has been deleted successfully")
+
+            except:
+                raise Exception ("Error during deletion")
+            
+    if user_input == 6:
+        click.secho("--------------------- Orders ------------------")
+        click.secho("Select an Option")
+        click.secho("1. Add order")
+        click.secho("2. View orders")
+        click.secho("3. Delete order")
+        click.secho("4. Update order status")
+
+        order_option = click.prompt("Option")
+
+        if order_option == 1:
+            click.secho("Adding Order.......")
+            customer_id = click.prompt("Enter Customer ID")
+            order_date = click.prompt("Enter Order Date")
+            order_status = click.prompt("Enter Order Status(Delivered or Not Delivered)")
+
+            try:
+                add_order(customer_id, order_date, order_status)
+                print(f"Customer {customer_id}'s New Order has been placed")
+            except:
+                raise Exception ("Failiure in placing new order")
+            
+        if order_option == 2:
+            click.secho("View all placed Orders........")
+            print(get_orders())
+        
+        if order_option == 3:
+            click.secho("Delete Order.......")
+            order_id = click.prompt("Enter Order ID")
+
+            try:
+                delete_order(order_id)
+                click.secho("Order has been deleted successfully")
+            except:
+                raise Exception("Failiure in deleting the Order")
+            
+        if order_option == 4:
+            click.secho("Update Order Status.......")
+            order_id = click.prompt("Enter Order ID")
+
+            try:
+                update_order_status(order_id)
+                click.secho("Order status has been updated successfully")
+            except:
+                raise Exception ("Failiure in Updating Order Status")
+        
+    if order_option == 7:
+        click.secho("--------------------Order Items----------------")
+        click.secho("Select an Option")
+        click.secho("1. Add Order Item")
+        click.secho("2. View Order items")
+        click.secho("3. Delete Order item")
+
+        item_option = click.prompt("Option")
+
+        if item_option == 1:
+            click.secho("Adding Order Item..........")
+            order_id = click.prompt("Enter Order ID")
+            product_id = click.prompt("Enter Product ID")
+            quantity = click.prompt("Enter quantity")
+
+            try:
+                add_order_item(order_id, product_id, quantity)
+                print(f"Order Item for order {order_id} has been added successfully")
+            except:
+                raise Exception ("Failiure in Adding Order Item")
+            
+        if item_option == 2:
+            click.prompt("View Order Items.......")
+            print(get_order_items())
+
+        if item_option == 3:
+            click.prompt("Delete Order Item.......")
+            item_id = click.prompt("Enter Order Item ID")
+
+            try:
+                delete_order_item(item_id)
+                click.secho("Order Deleted successfully")
+            except:
+                raise Exception ("Failiure in deleting Order Item")

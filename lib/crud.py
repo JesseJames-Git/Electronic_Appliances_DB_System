@@ -13,12 +13,17 @@ def get_all_supply_orders():
 def update_supply_order_status(supply_order_id, new_order_status):
     order = session.query(Supply_orders).filter_by(id=supply_order_id).first()
 
-    if order:
-        order.status = new_order_status
-        session.commit()
-        print(f"Order status of supply order with ID {supply_order_id} has been updated successfully.")
-    else:
-        print(f"Supply order with ID {supply_order_id} has not been updated. Ensure ID is correct")
+    if not order:
+        print(f"Supply order with ID {supply_order_id} not found.")
+        return
+
+    if order.status == "Delivered":
+        print(f"Order with ID {supply_order_id} is already 'Delivered'. No update needed.")
+        return
+
+    order.status = new_order_status
+    session.commit()
+    print(f"Order status for supply order ID {supply_order_id} has been updated to '{new_order_status}'.")
 
 def delete_supply_order(supply_order_id):
     order = session.query(Supply_orders).filter_by(id=supply_order_id).first()
@@ -62,13 +67,13 @@ def add_product_category(name, quantity_in_stock, description):
 def get_product_categories():
     return session.query(Product_category).all()
 
-def delete_product_category(product_category_id):
-    category = session.query(Product_category).filter_by(id=product_category_id).first()
+def delete_product_category(product_category_name):
+    category = session.query(Product_category).filter_by(name=product_category_name).first()
 
     if category:
         session.delete(category)
         session.commit()
-        print(f"Category with ID {product_category_id} has been deleted successfully")
+        print(f"Category with ID {product_category_name} has been deleted successfully")
     else:
         print(f"Category has not been deleted. Ensure ID is valid")
 
@@ -83,13 +88,13 @@ def add_product(name, brand, price, availability, category_id, description):
 def get_all_products():
     return session.query(Product).all()
 
-def delete_product(product_id):
-    product = session.query(Product).filter_by(id=product_id).first()
+def delete_product(product_name):
+    product = session.query(Product).filter_by(name=product_name).first()
 
     if product:
         session.delete(product)
         session.commit()
-        print(f"Product with ID {product_id} has been deleted successfully")
+        print(f"Product with ID {product_name} has been deleted successfully")
     else:
         print(f"Product has not been deleted. Ensure ID is valid")
 
@@ -104,13 +109,13 @@ def add_customer(first_name, last_name, email, phone, address):
 def get_customers():
     return session.query(Customers).all()
 
-def delete_customer(customer_id):
-    customer = session.query(Customers).filter_by(id=customer_id).first()
+def delete_customer(customer_first_name):
+    customer = session.query(Customers).filter_by(first_name=customer_first_name).first()
 
     if customer:
         session.delete(customer)
         session.commit()
-        print(f"Customer with ID {customer_id} has been deleted successfully")
+        print(f"Customer with ID {customer_first_name} has been deleted successfully")
     else:
         print(f"Customer has not been deleted. Ensure ID is valid")
 
