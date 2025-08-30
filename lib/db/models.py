@@ -1,5 +1,5 @@
-from sqlalchemy import Integer, String, Text, Column, ForeignKey, DateTime, Boolean, Numeric, create_engine
-from sqlalchemy.orm import relationship, declarative_base, sessionmaker
+from sqlalchemy import Integer, String, Text, Column, ForeignKey, DateTime, Boolean, Numeric, create_engine, event, CheckConstraint
+from sqlalchemy.orm import relationship, declarative_base, sessionmaker, attributes
 
 Base = declarative_base()
 
@@ -36,11 +36,17 @@ class Suppliers(Base):
 class Supply_orders(Base):
     __tablename__ = 'supply_orders'
     id = Column(Integer, primary_key=True)
-    product_id = Column(Integer, ForeignKey('products.id'))
-    quantity = Column(Integer)
-    supplier_id = Column(Integer, ForeignKey('suppliers.id'))
+    product_id = Column(Integer, ForeignKey('products.id'), nullable=False)
+    quantity = Column(Integer, nullable=False)
+    supplier_id = Column(Integer, ForeignKey('suppliers.id'), nullable=False)
+    status = Column(String, default='Not Delivered', nullable=False)
     products = relationship('Product', back_populates='orders')
     supplier = relationship('Suppliers', back_populates='orders')
+
+    __table_args__ = (
+        CheckConstraint(status.in_(['Delivered', 'Not Delivered'])),
+    )
+    
 
 class Customers(Base):
     __tablename__ = 'customers'
@@ -57,9 +63,13 @@ class Orders(Base):
     id = Column(Integer, primary_key=True)
     customer_id = Column(Integer, ForeignKey('customers.id'),nullable=False)
     order_date = Column(DateTime, nullable=False)
-    order_status = Column(Boolean, nullable=False)
+    order_status = Column(String, default='Not Delivered', nullable=False)
     customers_order = relationship('Customers', back_populates='customer_orders')
     order_items = relationship('Order_items', back_populates='items_order')
+
+    __table_args__ = (
+        CheckConstraint(order_status.in_(['Delivered', 'Not Delivered'])),
+    )
 
 class Order_items(Base):
     __tablename__ = 'order_items'
@@ -69,6 +79,58 @@ class Order_items(Base):
     quantity = Column(Integer)
     items_order = relationship('Orders', back_populates='order_items')
     product_order = relationship('Product', back_populates="ordered_products")
+
+
+@event.listens_for(Orders.order_status, 'set')
+def handle_customer_order_status_change(target, value, oldvalue, initiator):
+    """
+    Subtracts product quantity from stock when a customer order status changes to 'Delivered'.
+    """
+    
+    if value == 'Delivered' and oldvalue != 'Delivered':
+        local_session = Session() 
+        try:
+            target = local_session.merge(target) 
+            order_items = local_session.query(Order_items).filter_by(order_id=target.id).all()
+            
+            for item in order_items:
+                product = local_session.query(Product).filter_by(id=item.product_id).first()
+                if product:
+                    if product.quantity_in_stock >= item.quantity:
+                        product.quantity_in_stock -= item.quantity
+                        print(f"(-) Subtracted {item.quantity} of {product.name} from stock for Order ID {target.id}. New stock: {product.quantity_in_stock}")
+                    else:
+                        print(f"Warning: Not enough stock for {product.name} (ID: {product.id}) for Order ID {target.id}. Current stock: {product.quantity_in_stock}, ordered: {item.quantity}")
+            local_session.commit()
+        except Exception as e:
+            local_session.rollback()
+            print(f"Error updating stock for customer order {target.id}: {e}")
+        finally:
+            local_session.close()
+
+
+@event.listens_for(Supply_orders.status, 'set')
+def handle_supply_order_status_change(target, value, oldvalue, initiator):
+    """
+    Adds product quantity to stock when a supply order status changes to 'Delivered'.
+    """
+
+    if value == 'Delivered' and oldvalue != 'Delivered':
+        
+        local_session = Session()
+        try:
+            target = local_session.merge(target) 
+            product = local_session.query(Product).filter_by(id=target.product_id).first()
+            if product:
+                product.quantity_in_stock += target.quantity
+                print(f"(+) Added {target.quantity} of {product.name} to stock for Supply Order ID {target.id}. New stock: {product.quantity_in_stock}")
+            local_session.commit()
+        except Exception as e:
+            local_session.rollback()
+            print(f"Error updating stock for supply order {target.id}: {e}")
+        finally:
+            local_session.close()
+
     
 engine = create_engine("sqlite:///company_system.db")
 Base.metadata.create_all(bind=engine)
