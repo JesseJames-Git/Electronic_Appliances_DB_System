@@ -1,4 +1,4 @@
-from models import Supply_orders, Suppliers, Product_category, Product, Customers, Orders, Order_items, session
+from db.models import Supply_orders, Suppliers, Product_category, Product, Customers, Orders, Order_items, session
 
 # -------------------------------------------------Supply_orders CRUD-----------------------------------------------------------
 
@@ -8,9 +8,9 @@ def add_supply_order (product_id, quantity, supplier_id, status ):
     session.commit()
 
 def get_all_supply_orders():
-    return session.query(Supply_orders).all
+    return session.query(Supply_orders).all()
 
-def update_order_status(supply_order_id, new_order_status):
+def update_supply_order_status(supply_order_id, new_order_status):
     order = session.query(Supply_orders).filter_by(id=supply_order_id).first()
 
     if order:
@@ -39,15 +39,15 @@ def add_supplier(name, email, phone, address):
     session.commit()
 
 def get_suppliers():
-    return session.query(Suppliers).all
+    return session.query(Suppliers).all()
 
-def delete_supplier(supplier_id):
-    supplier = session.query(Suppliers).filter_by(id=supplier_id).first()
+def delete_supplier(supplier_name):
+    supplier = session.query(Suppliers).filter_by(name=supplier_name).first()
 
     if supplier:
         session.delete(supplier)
         session.commit()
-        print(f"Supplier with ID {supplier_id} has been deleted successfully")
+        print(f"Supplier ({supplier_name}) has been deleted successfully")
     else:
         print(f"Supplier has not been deleted. Ensure ID is valid")
 
@@ -60,7 +60,7 @@ def add_product_category(name, quantity_in_stock, description):
     session.commit()
 
 def get_product_categories():
-    return session.query(Product_category).all
+    return session.query(Product_category).all()
 
 def delete_product_category(product_category_id):
     category = session.query(Product_category).filter_by(id=product_category_id).first()
@@ -80,8 +80,18 @@ def add_product(name, brand, price, availability, category_id, description):
     session.add(new_product)
     session.commit()
 
-def get_product():
-    return session.query()
+def get_all_products():
+    return session.query(Product).all()
+
+def delete_product(product_id):
+    product = session.query(Product).filter_by(id=product_id).first()
+
+    if product:
+        session.delete(product)
+        session.commit()
+        print(f"Product with ID {product_id} has been deleted successfully")
+    else:
+        print(f"Product has not been deleted. Ensure ID is valid")
 
 
 
@@ -91,6 +101,19 @@ def add_customer(first_name, last_name, email, phone, address):
     session.add(new_customer)
     session.commit()
 
+def get_customers():
+    return session.query(Customers).all()
+
+def delete_customer(customer_id):
+    customer = session.query(Customers).filter_by(id=customer_id).first()
+
+    if customer:
+        session.delete(customer)
+        session.commit()
+        print(f"Customer with ID {customer_id} has been deleted successfully")
+    else:
+        print(f"Customer has not been deleted. Ensure ID is valid")
+
 
 
 # -------------------------------------------------------Orders CRUD-----------------------------------------------------------
@@ -99,6 +122,28 @@ def add_order(customer_id, order_date, order_status):
     session.add(new_order)
     session.commit()
 
+def get_orders():
+    return session.query(Orders).all()
+
+def update_order_status(order_id, new_order_status):
+    order = session.query(Orders).filter_by(id=order_id).first()
+
+    if order:
+        order.status = new_order_status
+        session.commit()
+        print(f"Order status of  order with ID {order_id} has been updated successfully.")
+    else:
+        print(f"Order with ID {order_id} has not been updated. Ensure ID is correct")
+
+def delete_order(order_id):
+    order = session.query(Orders).filter_by(id=order_id).first()
+
+    if order:
+        session.delete(order)
+        session.commit()
+        print(f"Order with ID {order_id} has been deleted successfully")
+    else:
+        print(f"Order has not been deleted. Ensure ID is valid")
 
 
 # -------------------------------------------------------Order_items CRUD------------------------------------------------------
@@ -106,3 +151,16 @@ def add_order_item(order_id, product_id, quantity):
     new_order_item = Order_items(order_id=order_id, product_id=product_id, quantity=quantity)
     session.add(new_order_item)
     session.commit()
+
+def get_order_items():
+    return session.query(Order_items).all()
+
+def delete_order_item(item_id):
+    item = session.query(Order_items).filter_by(id=item_id).first()
+
+    if item:
+        session.delete(item)
+        session.commit()
+        print(f"Order item with ID {item_id} has been deleted successfully")
+    else:
+        print(f"Order item has not been deleted. Ensure ID is valid")
