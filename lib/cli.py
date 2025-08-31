@@ -55,8 +55,6 @@ while True:
 
             try:
                 add_supplier(name, email, phone, address)
-                click.secho(f"{name} has successfully been added as a Supplier",dim='True', fg='green')
-            
             except:
                 raise Exception(f"Error adding of {name} as a Supplier")
 
@@ -76,20 +74,19 @@ while True:
 
             try:
                 delete_supplier(supplier_name) 
-                click.secho(f"{supplier_name} has been deleted successfully")
             except:
                 raise Exception(f"Error deleting {supplier_name}")
 
 
     if user_input == 2:
-        click.secho("--------------  Supply Orders' Options  -----------")
+        click.secho("--------------  Supply Orders' Options  -----------", fg='green')
         click.secho("Select an option", dim=True, fg='blue')
         click.secho("1. Add New Supply Order",fg='cyan')
         click.secho("2. View Supply Orders",fg='cyan')
         click.secho("3. Update Order Status",fg='cyan')
         click.secho("4. Delete Supply Order",fg='cyan')
 
-        supply_order_option = click.prompt("Option")
+        supply_order_option = click.prompt("Option", type=int)
 
         if supply_order_option == 1:
             click.secho("Adding New Supply Order.......")
@@ -141,7 +138,7 @@ while True:
         click.secho("2. View all Product Categories",fg='cyan')
         click.secho("3. Delete Category Product",fg='cyan')
 
-        category_option = click.prompt("Option")
+        category_option = click.prompt("Option", type=int)
 
         if category_option == 1:
             click.secho("Adding New Category......")
@@ -180,22 +177,13 @@ while True:
         click.secho("2. View all Products",fg='cyan')
         click.secho("3. Delete Product",fg='cyan')
 
-        product_option = click.prompt("Option")
+        product_option = click.prompt("Option", type=int)
 
         if product_option == 1:
             click.secho("Adding new product.......")
             name = click.prompt("Enter Product Name")
             brand = click.prompt("Enter Brand Name")
-
-            click.secho("The product is available in stock")
-            available = click.prompt("1. True")
-            not_available = click.prompt("2. False")
-
-            if available:
-                availability = True
-            if not_available:
-                availability = False
-            
+            availability = click.confirm("Is the product available?", default=True)
             category_id = click.prompt("Enter Categoty ID(Optional)")
             description = click.prompt("Enter Description(Optional)")
 
@@ -227,7 +215,7 @@ while True:
         click.secho("2. View Customers",fg='cyan')
         click.secho("3. Delete Customer",fg='cyan')
 
-        customer_option = click.prompt("Option")
+        customer_option = click.prompt("Option", type=int)
             
         if customer_option == 1:
             click.secho("Adding Customer.......")
@@ -270,7 +258,7 @@ while True:
         click.secho("3. Delete order",fg='cyan')
         click.secho("4. Update order status",fg='cyan')
 
-        order_option = click.prompt("Option")
+        order_option = click.prompt("Option", type=int)
 
         if order_option == 1:
             click.secho("Adding Order.......")
@@ -319,7 +307,7 @@ while True:
         click.secho("2. View Order items",fg='cyan')
         click.secho("3. Delete Order item",fg='cyan')
 
-        item_option = click.prompt("Option")
+        item_option = click.prompt("Option", type=int)
 
         if item_option == 1:
             click.secho("Adding Order Item..........")
