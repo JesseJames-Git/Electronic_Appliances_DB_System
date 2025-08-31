@@ -31,7 +31,15 @@ Example:
 3. Navigate to the newly created folder(Electronic_Appliances_DB_System) using this command.
     ``` cd Electronic_Appliances_DB_System ```
 
-4. Run this command to run the CLI app:
+4. Run the command below to put your project in a virtual environment.
+    ``` pipenv shell ```
+
+5. The following dependancies wiil be used to  make your app interact with the database: SQLAlchemy, Alembic and Click. Add them to your folder using the command below:
+    ``` pip install sqlalchemy alembic ```
+then:
+    ``` pip install click ```
+
+6. Run this command to run the CLI app:
     ``` python lib/cli.py ```
 
 
@@ -72,4 +80,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
