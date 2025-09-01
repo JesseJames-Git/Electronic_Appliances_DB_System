@@ -146,7 +146,6 @@ while True:
 
             try:
                 add_product_category(name, quantity_in_stock, description)
-                click.secho(f"{name} category has been added!!!")
             except:
                 raise Exception(f"{name} addition has failed.")
             
@@ -180,11 +179,12 @@ while True:
             click.secho("Adding new product.......")
             name = click.prompt("Enter Product Name")
             brand = click.prompt("Enter Brand Name")
+            price = click.prompt("Enter product price")
             availability = click.confirm("Is the product available?", default=True)
             category_id = click.prompt("Enter Categoty ID(Optional)")
             description = click.prompt("Enter Description(Optional)")
 
-            add_product(name, brand, availability, category_id, description)
+            add_product(name, brand, price, availability, category_id, description)
             
         if product_option == 2:
             click.secho("Viewing All Products.......")
@@ -255,7 +255,8 @@ while True:
         if order_option == 1:
             click.secho("Adding Order.......")
             customer_id = click.prompt("Enter Customer ID")
-            order_date = click.prompt("Enter Order Date")
+            order_datetime = click.prompt("Enter Order Date (YYYY-MM-DD)", type=click.DateTime(formats=['%Y-%m-%d']))
+            order_date = order_datetime.date()
             order_status = click.prompt("Enter Order Status(Delivered or Not Delivered)")
 
             try:
