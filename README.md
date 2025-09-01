@@ -34,7 +34,7 @@ Example:
 4. Run the command below to put your project in a virtual environment.
     ``` pipenv shell ```
 
-5. The following dependancies wiil be used to  make your app interact with the database: SQLAlchemy, Alembic and Click. Add them to your folder using the command below:
+5. The following dependancies will be used to  make your app interact with the database: SQLAlchemy, Alembic and Click. Add them to your folder using the command below:
     ``` pip install sqlalchemy alembic click ```
 
 6. Run this command to run the CLI app:

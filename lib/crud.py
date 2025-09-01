@@ -42,6 +42,7 @@ def add_supplier(name, email, phone, address):
     new_supplier = Suppliers(name=name, email=email, phone=phone, address=address)
     session.add(new_supplier)
     session.commit()
+    print(f"{new_supplier.name} has been added successfully")
 
 def get_suppliers():
     return session.query(Suppliers).all()
@@ -63,6 +64,7 @@ def add_product_category(name, quantity_in_stock, description):
     new_product_category = Product_category(name=name, quantity_in_stock=quantity_in_stock, description=description)
     session.add(new_product_category)
     session.commit()
+    print(f"{new_product_category.name} has been added successfully")
 
 def get_product_categories():
     return session.query(Product_category).all()
@@ -84,6 +86,7 @@ def add_product(name, brand, price, availability, category_id, description):
     new_product = Product(name=name, brand=brand, price=price, availability=availability, category_id=category_id, description=description)
     session.add(new_product)
     session.commit()
+    print(f"{new_product.name} has been added successfully")
 
 def get_all_products():
     return session.query(Product).all()
@@ -105,6 +108,7 @@ def add_customer(first_name, last_name, email, phone, address):
     new_customer = Customers(first_name=first_name, last_name=last_name, email=email, phone=phone, address=address)
     session.add(new_customer)
     session.commit()
+    print(f"{new_customer.first_name} {new_customer.last_name} has been added successfully")
 
 def get_customers():
     return session.query(Customers).all()
@@ -126,6 +130,7 @@ def add_order(customer_id, order_date, order_status):
     new_order = Orders(customer_id=customer_id, order_date=order_date, order_status=order_status)
     session.add(new_order)
     session.commit()
+    print(f"{new_order.id} has been added successfully")
 
 def get_orders():
     return session.query(Orders).all()
@@ -136,7 +141,7 @@ def update_order_status(order_id, new_order_status):
     if order:
         order.status = new_order_status
         session.commit()
-        print(f"Order status of  order with ID {order_id} has been updated successfully.")
+        print(f"Order status of order with ID {order_id} has been updated successfully.")
     else:
         print(f"Order with ID {order_id} has not been updated. Ensure ID is correct")
 
@@ -156,6 +161,7 @@ def add_order_item(order_id, product_id, quantity):
     new_order_item = Order_items(order_id=order_id, product_id=product_id, quantity=quantity)
     session.add(new_order_item)
     session.commit()
+    print(f"{new_order_item.id} has been added successfully")
 
 def get_order_items():
     return session.query(Order_items).all()

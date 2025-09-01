@@ -70,7 +70,7 @@ while True:
 
         if supplier_option == 3:
             click.secho("Deleting Supplier........")
-            supplier_name = click.prompt("Enter the name of supplier: ")
+            supplier_name = click.prompt("Enter the name of supplier")
 
             try:
                 delete_supplier(supplier_name) 
@@ -97,7 +97,6 @@ while True:
 
             try:
                 add_supply_order(prod_id, quantity, supplier, status="Not Delivered")
-                click.secho(f"New Supply Order has been added")
             except:
                 raise Exception(f"Error adding New Supply Order")
         
@@ -116,7 +115,6 @@ while True:
 
             try:
                 update_supply_order_status(supply_order_id, "Delivered")
-                click.secho(f"Status of supply Order {supply_order_id} is now Delivered")
             except:
                 raise Exception (f"Error updating order status")
         
@@ -165,7 +163,6 @@ while True:
 
             try:
                 delete_product_category(name)
-                click.secho(f"{name} category has been deleted successfully")
             except:
                 raise Exception(f"{name} deletion has failed.")
             
@@ -188,8 +185,7 @@ while True:
             description = click.prompt("Enter Description(Optional)")
 
             add_product(name, brand, availability, category_id, description)
-            click.secho("Product has been added successfully")
-
+            
         if product_option == 2:
             click.secho("Viewing All Products.......")
             products = get_all_products()
@@ -203,7 +199,6 @@ while True:
 
             try:
                 delete_product(product_name)
-                click.secho(f"{name} has been deleted")
             except:
                 raise Exception("Error during deletion")
             
@@ -227,7 +222,6 @@ while True:
 
             try:
                 add_customer(first_name, last_name, email, phone, address)
-                click.secho(f"{first_name} {last_name} has been added successfully")
             except:
                 raise Exception("Error during addition")
         
@@ -244,8 +238,6 @@ while True:
 
             try:
                 delete_customer(customer_first_name)
-                click.secho(f"{customer_first_name} has been deleted successfully")
-
             except:
                 raise Exception ("Error during deletion")
             
@@ -268,7 +260,6 @@ while True:
 
             try:
                 add_order(customer_id, order_date, order_status)
-                print(f"Customer {customer_id}'s New Order has been placed")
             except:
                 raise Exception ("Failiure in placing new order")
             
@@ -285,7 +276,6 @@ while True:
 
             try:
                 delete_order(order_id)
-                click.secho("Order has been deleted successfully")
             except:
                 raise Exception("Failiure in deleting the Order")
             
@@ -295,7 +285,6 @@ while True:
 
             try:
                 update_order_status(order_id)
-                click.secho("Order status has been updated successfully")
             except:
                 raise Exception ("Failiure in Updating Order Status")
             
@@ -317,7 +306,6 @@ while True:
 
             try:
                 add_order_item(order_id, product_id, quantity)
-                print(f"Order Item for order {order_id} has been added successfully")
             except:
                 raise Exception ("Failiure in Adding Order Item")
             
@@ -334,6 +322,5 @@ while True:
 
             try:
                 delete_order_item(item_id)
-                click.secho("Order Deleted successfully")
             except:
                 raise Exception ("Failiure in deleting Order Item")
