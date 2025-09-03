@@ -34,7 +34,7 @@ Example:
 ### Setup Instructions
 - Firstly, run this command in the command line in this apps directory to install required dependancies and virtual environment.
     ``` pipenv install ```
-    
+
 - Run the command below to put your project in a virtual environment.
     ``` pipenv shell ```
 
@@ -70,11 +70,6 @@ Example:
 Now feel free to interact with the application using the options given.
 
 * NOTE : Make deletions and updates carefully to maintain data integrity
-
-## Contact Details
-If you have any questions, contact me through:
-
-- Email: jessejamesjj007@gmail.com
 
 ## Author
 - The entire project was done by Jesse James Kang'ethe Macibi (Developer in learning).
