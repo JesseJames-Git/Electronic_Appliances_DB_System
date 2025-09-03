@@ -1,5 +1,4 @@
 .venv/
-Pictures/
 lib/db/migrations
 lib/db/alembic.ini
 lib/db/company_system.db
