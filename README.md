@@ -41,7 +41,7 @@ Example:
     ``` python lib/cli.py ```
 
 
-- After cloning and setting up the app, ensure you follow the navigational details. 
+- After cloning and setting up the app, ensure you follow the navigational options. 
 
 - Feel free to interact with the application using the options given. 
 
