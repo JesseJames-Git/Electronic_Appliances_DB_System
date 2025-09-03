@@ -80,7 +80,7 @@ order_item_menu = {
 
 
 def show_menu(title, menu_dict):
-    click.secho(f"------ {title} ------", fg="green", bold=True)
+    click.secho(f"------ {title} ------", dim=True, fg="green", bold=True)
     for key, val in menu_dict.items():
         click.secho(f"{key}. {val}", fg="cyan")
     return click.prompt("Option", type=int)
@@ -88,8 +88,9 @@ def show_menu(title, menu_dict):
 
 while True:
     click.secho("-------------Welcome to the Electrical Appliances Database System------------", bold=True, fg='green')
-    user_input = show_menu("Main Menu", main_menu)
+    click.secho("Select an Option by number", dim=True, fg='cyan')
 
+    user_input = show_menu("Main Menu", main_menu)
     if user_input == 1:
         supplier_option = show_menu("Suppliers' Options", supplier_menu)
         if supplier_option == 1:
@@ -107,6 +108,7 @@ while True:
         elif supplier_option == 3:
             supplier_name = click.prompt("Enter the name of supplier")
             delete_supplier(supplier_name)
+
 
     elif user_input == 2:
         supply_order_option = show_menu("Supply Orders' Options", supply_order_menu)
@@ -128,6 +130,7 @@ while True:
             supply_order_id = click.prompt("Enter Supply Order ID")
             delete_supply_order(supply_order_id)
 
+
     elif user_input == 3:
         category_option = show_menu("Product Categories", product_category_menu)
         if category_option == 1:
@@ -143,6 +146,7 @@ while True:
         elif category_option == 3:
             name = click.prompt("Enter Existing Category Name")
             delete_product_category(name)
+
 
     elif user_input == 4:
         product_option = show_menu("Products", product_menu)
@@ -163,6 +167,7 @@ while True:
             product_name = click.prompt("Enter Product Name")
             delete_product(product_name)
 
+
     elif user_input == 5:
         customer_option = show_menu("Customers", customer_menu)
         if customer_option == 1:
@@ -181,14 +186,14 @@ while True:
             customer_first_name = click.prompt("Enter Customer's First Name")
             delete_customer(customer_first_name)
 
+
     elif user_input == 6:
         order_option = show_menu("Orders", order_menu)
         if order_option == 1:
             customer_id = click.prompt("Enter Customer ID")
             order_datetime = click.prompt("Enter Order Date (YYYY-MM-DD)", type=click.DateTime(formats=['%Y-%m-%d']))
             order_date = order_datetime.date()
-            order_status = click.prompt("Enter Order Status")
-            add_order(customer_id, order_date, order_status)
+            add_order(customer_id, order_date, order_status="Not Delivered")
 
         elif order_option == 2:
             for o in get_orders():
@@ -201,6 +206,7 @@ while True:
         elif order_option == 4:
             order_id = click.prompt("Enter Order ID")
             update_order_status(order_id, "Delivered")
+
 
     elif user_input == 7:
         item_option = show_menu("Order Items", order_item_menu)

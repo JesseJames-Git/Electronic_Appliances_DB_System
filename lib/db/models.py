@@ -84,23 +84,29 @@ class Order_items(Base):
 @event.listens_for(Orders.order_status, 'set')
 def handle_customer_order_status_change(target, value, oldvalue, initiator):
     """
-    Subtracts product quantity from stock when a customer order status changes to 'Delivered'.
+    Subtracts product quantity from stock in Product_category
+    when a customer order status changes to 'Delivered'.
     """
-    
     if value == 'Delivered' and oldvalue != 'Delivered':
-        local_session = Session() 
+        local_session = Session()
         try:
             target = local_session.merge(target) 
             order_items = local_session.query(Order_items).filter_by(order_id=target.id).all()
             
             for item in order_items:
                 product = local_session.query(Product).filter_by(id=item.product_id).first()
-                if product:
-                    if product.quantity_in_stock >= item.quantity:
-                        product.quantity_in_stock -= item.quantity
-                        print(f"(-) Subtracted {item.quantity} of {product.name} from stock for Order ID {target.id}. New stock: {product.quantity_in_stock}")
+                if product and product.category: 
+                    category = product.category
+                    if category.quantity_in_stock >= item.quantity:
+                        category.quantity_in_stock -= item.quantity
+                        print(f"(-) Subtracted {item.quantity} of {product.name} "
+                              f"(Category: {category.name}) for Order ID {target.id}. "
+                              f"New stock: {category.quantity_in_stock}")
                     else:
-                        print(f"Warning: Not enough stock for {product.name} (ID: {product.id}) for Order ID {target.id}. Current stock: {product.quantity_in_stock}, ordered: {item.quantity}")
+                        print(f"Not enough stock for {product.name} "
+                              f"(Category: {category.name}). Current stock: {category.quantity_in_stock}, "
+                              f"ordered: {item.quantity}")
+            
             local_session.commit()
         except Exception as e:
             local_session.rollback()
@@ -112,24 +118,28 @@ def handle_customer_order_status_change(target, value, oldvalue, initiator):
 @event.listens_for(Supply_orders.status, 'set')
 def handle_supply_order_status_change(target, value, oldvalue, initiator):
     """
-    Adds product quantity to stock when a supply order status changes to 'Delivered'.
+    Adds product quantity to stock in Product_category
+    when a supply order status changes to 'Delivered'.
     """
-
     if value == 'Delivered' and oldvalue != 'Delivered':
-        
         local_session = Session()
         try:
             target = local_session.merge(target) 
             product = local_session.query(Product).filter_by(id=target.product_id).first()
-            if product:
-                product.quantity_in_stock += target.quantity
-                print(f"(+) Added {target.quantity} of {product.name} to stock for Supply Order ID {target.id}. New stock: {product.quantity_in_stock}")
+            if product and product.category:
+                category = product.category
+                category.quantity_in_stock += target.quantity
+                print(f"(+) Added {target.quantity} of {product.name} "
+                      f"(Category: {category.name}) for Supply Order ID {target.id}. "
+                      f"New stock: {category.quantity_in_stock}")
             local_session.commit()
         except Exception as e:
             local_session.rollback()
             print(f"Error updating stock for supply order {target.id}: {e}")
         finally:
             local_session.close()
+
+
 
     
 engine = create_engine("sqlite:///company_system.db")
