@@ -20,308 +20,200 @@ from crud import (
     add_order, get_orders, delete_order, update_order_status,
 
     # --------------Order Items---------------
-    add_order_item, get_order_items,delete_order_item
+    add_order_item, get_order_items, delete_order_item
 )
+
+# -------------------- Menu Structures --------------------
+main_menu = {
+    1: "Suppliers",
+    2: "Supply Orders",
+    3: "Product Categories",
+    4: "Products",
+    5: "Customers",
+    6: "Customer Orders",
+    7: "Customer Order Items"
+}
+
+supplier_menu = {
+    1: "Add New Supplier",
+    2: "View Company Suppliers",
+    3: "Delete Supplier"
+}
+
+supply_order_menu = {
+    1: "Add New Supply Order",
+    2: "View Supply Orders",
+    3: "Update Order Status",
+    4: "Delete Supply Order"
+}
+
+product_category_menu = {
+    1: "Add Product Category",
+    2: "View all Product Categories",
+    3: "Delete Category Product"
+}
+
+product_menu = {
+    1: "Add Product",
+    2: "View all Products",
+    3: "Delete Product"
+}
+
+customer_menu = {
+    1: "Add Customer",
+    2: "View Customers",
+    3: "Delete Customer"
+}
+
+order_menu = {
+    1: "Add Order",
+    2: "View Orders",
+    3: "Delete Order",
+    4: "Update Order Status"
+}
+
+order_item_menu = {
+    1: "Add Order Item",
+    2: "View Order Items",
+    3: "Delete Order Item"
+}
+
+
+def show_menu(title, menu_dict):
+    click.secho(f"------ {title} ------", fg="green", bold=True)
+    for key, val in menu_dict.items():
+        click.secho(f"{key}. {val}", fg="cyan")
+    return click.prompt("Option", type=int)
+
 
 while True:
     click.secho("-------------Welcome to the Electrical Appliances Database System------------", bold=True, fg='green')
-    click.secho("Select Option  to Proceed", bold=True, fg='blue')
-    click.secho("Select using the option's number", dim=True, fg='cyan')
-    click.secho("1. Suppliers",fg='cyan')
-    click.secho("2. Supply Orders",fg='cyan')
-    click.secho("3. Product Categories",fg='cyan')
-    click.secho("4. Products",fg='cyan')
-    click.secho("5. Customers",fg='cyan')
-    click.secho("6. Customer Orders",fg='cyan')
-    click.secho("7. Customer Order items",fg='cyan')
-
-    user_input = click.prompt("Option", type=int)
+    user_input = show_menu("Main Menu", main_menu)
 
     if user_input == 1:
-        click.secho("--------------  Suppliers' Options  -----------", fg='green')
-        click.secho("Select an Option", dim=True, fg='blue')
-        click.secho("1. Add New Supplier" ,fg='cyan')
-        click.secho("2. View Company Suppliers",fg='cyan')
-        click.secho("3. Delete Supplier",fg='cyan')
-
-        supplier_option = click.prompt("Option", type=int)
-
+        supplier_option = show_menu("Suppliers' Options", supplier_menu)
         if supplier_option == 1:
-            click.secho("Adding New Supplier......", dim='True',fg='cyan')
             name = click.prompt("Enter name")
             email = click.prompt("Enter email")
             phone = click.prompt("Enter phone")
             address = click.prompt("Enter Address")
+            add_supplier(name, email, phone, address)
 
-            try:
-                add_supplier(name, email, phone, address)
-            except:
-                raise Exception(f"Error adding of {name} as a Supplier")
-
-        if supplier_option == 2:
-            click.secho("Showing Company Suppliers......")
+        elif supplier_option == 2:
             suppliers = get_suppliers()
+            for s in suppliers:
+                print(f"{s.id} | {s.name} | {s.email} | {s.phone} | {s.address}")
 
-            if suppliers:
-                for supplier in suppliers:
-                    print(f"{supplier.id} | {supplier.name} | {supplier.email} | {supplier.phone} | {supplier.address}")
-            else:
-                click.secho("No suppliers found.")
-
-        if supplier_option == 3:
-            click.secho("Deleting Supplier........")
+        elif supplier_option == 3:
             supplier_name = click.prompt("Enter the name of supplier")
+            delete_supplier(supplier_name)
 
-            try:
-                delete_supplier(supplier_name) 
-            except:
-                raise Exception(f"Error deleting {supplier_name}")
-
-
-    if user_input == 2:
-        click.secho("--------------  Supply Orders' Options  -----------", fg='green')
-        click.secho("Select an option", dim=True, fg='blue')
-        click.secho("1. Add New Supply Order",fg='cyan')
-        click.secho("2. View Supply Orders",fg='cyan')
-        click.secho("3. Update Order Status",fg='cyan')
-        click.secho("4. Delete Supply Order",fg='cyan')
-
-        supply_order_option = click.prompt("Option", type=int)
-
+    elif user_input == 2:
+        supply_order_option = show_menu("Supply Orders' Options", supply_order_menu)
         if supply_order_option == 1:
-            click.secho("Adding New Supply Order.......")
             prod_id = click.prompt("Enter Product ID")
             quantity = click.prompt("Enter Quantity")
             supplier = click.prompt("Enter Supplier ID")
-            status = click.prompt("Enter Order Status (Delivered or Not Delivered)", type=str)
+            add_supply_order(prod_id, quantity, supplier, status="Not Delivered")
 
-            try:
-                add_supply_order(prod_id, quantity, supplier, status="Not Delivered")
-            except:
-                raise Exception(f"Error adding New Supply Order")
-        
-        if supply_order_option == 2:
-            click.secho("Showing Supply Orders")
-            supply_orders = get_all_supply_orders()
-            if supply_orders:
-                for supply_order in supply_orders:
-                    print(f"{supply_order.id} | {supply_order.quantity} | {supply_order.supplier_id} | {supply_order.status}")
-            else:
-                click.secho("Supply Order not found")
+        elif supply_order_option == 2:
+            for so in get_all_supply_orders():
+                print(f"{so.id} | {so.quantity} | {so.supplier_id} | {so.status}")
 
-        if supply_order_option == 3:
-            click.secho("Updating Supply Order Status........")
+        elif supply_order_option == 3:
             supply_order_id = click.prompt("Enter Supply Order Id")
+            update_supply_order_status(supply_order_id, "Delivered")
 
-            try:
-                update_supply_order_status(supply_order_id, "Delivered")
-            except:
-                raise Exception (f"Error updating order status")
-        
-        if supply_order_option == 4:
-            click.secho("Deleting Supply Order........")
+        elif supply_order_option == 4:
             supply_order_id = click.prompt("Enter Supply Order ID")
+            delete_supply_order(supply_order_id)
 
-            try:
-                delete_supply_order(supply_order_id)
-                click.secho("Supply Order has been deleted successfully ")
-            except:
-                raise Exception ('Error deleting supply order')
-            
-            
-    if user_input == 3:
-        click.secho("----------------- Product Category ----------------")
-        click.secho("Select an option:", dim=True, fg='blue')
-        click.secho("1. Add Product Category",fg='cyan')
-        click.secho("2. View all Product Categories",fg='cyan')
-        click.secho("3. Delete Category Product",fg='cyan')
-
-        category_option = click.prompt("Option", type=int)
-
+    elif user_input == 3:
+        category_option = show_menu("Product Categories", product_category_menu)
         if category_option == 1:
-            click.secho("Adding New Category......")
             name = click.prompt("Enter category name")
             quantity_in_stock = click.prompt("Enter Stock Quantity")
             description = click.prompt("Describe the Category")
+            add_product_category(name, quantity_in_stock, description)
 
-            try:
-                add_product_category(name, quantity_in_stock, description)
-            except:
-                raise Exception(f"{name} addition has failed.")
-            
-        if category_option == 2:
-            click.secho("Viewing Product Categories.....")
-            product_categories = get_product_categories()
-            if product_categories:
-                for product_category in product_categories:
-                    print(f"{product_category.id} | {product_category.name} | {product_category.quantity_in_stock} | {product_category.description}")
-            
-        if category_option == 3:
-            click.secho("Deleting a product category......")
-            name = click.secho("Enter Existing Category Name")
+        elif category_option == 2:
+            for pc in get_product_categories():
+                print(f"{pc.id} | {pc.name} | {pc.quantity_in_stock} | {pc.description}")
 
-            try:
-                delete_product_category(name)
-            except:
-                raise Exception(f"{name} deletion has failed.")
-            
+        elif category_option == 3:
+            name = click.prompt("Enter Existing Category Name")
+            delete_product_category(name)
 
-    if user_input == 4:
-        click.secho("------------------- Products -----------------")
-        click.secho("Select an Option:", dim=True, fg='blue')
-        click.secho("1. Add Product",fg='cyan')
-        click.secho("2. View all Products",fg='cyan')
-        click.secho("3. Delete Product",fg='cyan')
-
-        product_option = click.prompt("Option", type=int)
-
+    elif user_input == 4:
+        product_option = show_menu("Products", product_menu)
         if product_option == 1:
-            click.secho("Adding new product.......")
             name = click.prompt("Enter Product Name")
             brand = click.prompt("Enter Brand Name")
             price = click.prompt("Enter product price")
             availability = click.confirm("Is the product available?", default=True)
-            category_id = click.prompt("Enter Categoty ID(Optional)")
-            description = click.prompt("Enter Description(Optional)")
-
+            category_id = click.prompt("Enter Category ID (Optional)")
+            description = click.prompt("Enter Description (Optional)")
             add_product(name, brand, price, availability, category_id, description)
-            
-        if product_option == 2:
-            click.secho("Viewing All Products.......")
-            products = get_all_products()
-            if products:
-                for product in products:
-                    print(f"{product.id}  | {product.name} | {product.brand} | {product.price} | {product.availability} | {product.category_id} | {product.description}")
-        
-        if product_option == 3:
-            click.secho("Deleting Product.......")
+
+        elif product_option == 2:
+            for p in get_all_products():
+                print(f"{p.id} | {p.name} | {p.brand} | {p.price} | {p.availability} | {p.category_id} | {p.description}")
+
+        elif product_option == 3:
             product_name = click.prompt("Enter Product Name")
+            delete_product(product_name)
 
-            try:
-                delete_product(product_name)
-            except:
-                raise Exception("Error during deletion")
-            
-            
-    if user_input == 5:
-        click.secho("--------------- Customers -----------------")
-        click.secho("Select an Option:", dim=True, fg='blue')
-        click.secho("1. Add Customer",fg='cyan')
-        click.secho("2. View Customers",fg='cyan')
-        click.secho("3. Delete Customer",fg='cyan')
-
-        customer_option = click.prompt("Option", type=int)
-            
+    elif user_input == 5:
+        customer_option = show_menu("Customers", customer_menu)
         if customer_option == 1:
-            click.secho("Adding Customer.......")
             first_name = click.prompt("Enter first name")
             last_name = click.prompt("Enter last name")
             email = click.prompt("Enter email")
             phone = click.prompt("Enter phone number(Optional)")
             address = click.prompt("Enter Address(Optional)")
+            add_customer(first_name, last_name, email, phone, address)
 
-            try:
-                add_customer(first_name, last_name, email, phone, address)
-            except:
-                raise Exception("Error during addition")
-        
-        if customer_option == 2:
-            click.secho("Viewing Customers.......")
-            customers = get_customers()
-            if customers:
-                for customer in customers:
-                    print(f"{customer.id} | {customer.first_name} | {customer.last_name} | {customer.email} | {customer.phone} | {customer.address}")
+        elif customer_option == 2:
+            for c in get_customers():
+                print(f"{c.id} | {c.first_name} | {c.last_name} | {c.email} | {c.phone} | {c.address}")
 
-        if customer_option == 3:
-            click.secho("Deleting Customer.......")
+        elif customer_option == 3:
             customer_first_name = click.prompt("Enter Customer's First Name")
+            delete_customer(customer_first_name)
 
-            try:
-                delete_customer(customer_first_name)
-            except:
-                raise Exception ("Error during deletion")
-            
-            
-    if user_input == 6:
-        click.secho("--------------------- Orders ------------------")
-        click.secho("Select an Option:", dim=True, fg='blue')
-        click.secho("1. Add order",fg='cyan')
-        click.secho("2. View orders",fg='cyan')
-        click.secho("3. Delete order",fg='cyan')
-        click.secho("4. Update order status",fg='cyan')
-
-        order_option = click.prompt("Option", type=int)
-
+    elif user_input == 6:
+        order_option = show_menu("Orders", order_menu)
         if order_option == 1:
-            click.secho("Adding Order.......")
             customer_id = click.prompt("Enter Customer ID")
             order_datetime = click.prompt("Enter Order Date (YYYY-MM-DD)", type=click.DateTime(formats=['%Y-%m-%d']))
             order_date = order_datetime.date()
-            order_status = click.prompt("Enter Order Status(Delivered or Not Delivered)")
+            order_status = click.prompt("Enter Order Status")
+            add_order(customer_id, order_date, order_status)
 
-            try:
-                add_order(customer_id, order_date, order_status)
-            except:
-                raise Exception ("Failiure in placing new order")
-            
-        if order_option == 2:
-            click.secho("View all placed Orders........")
-            orders = get_orders()
-            if orders:
-                for order in orders:
-                    print(f"{order.id} | {order.customer_id} | {order.order_date} | {order.order_status}")
-        
-        if order_option == 3:
-            click.secho("Delete Order.......")
+        elif order_option == 2:
+            for o in get_orders():
+                print(f"{o.id} | {o.customer_id} | {o.order_date} | {o.order_status}")
+
+        elif order_option == 3:
             order_id = click.prompt("Enter Order ID")
+            delete_order(order_id)
 
-            try:
-                delete_order(order_id)
-            except:
-                raise Exception("Failiure in deleting the Order")
-            
-        if order_option == 4:
-            click.secho("Update Order Status.......")
+        elif order_option == 4:
             order_id = click.prompt("Enter Order ID")
+            update_order_status(order_id, "Delivered")
 
-            try:
-                update_order_status(order_id)
-            except:
-                raise Exception ("Failiure in Updating Order Status")
-            
-        
-    if user_input == 7:
-        click.secho("--------------------Order Items----------------")
-        click.secho("Select an Option:", dim=True, fg='blue')
-        click.secho("1. Add Order Item",fg='cyan')
-        click.secho("2. View Order items",fg='cyan')
-        click.secho("3. Delete Order item",fg='cyan')
-
-        item_option = click.prompt("Option", type=int)
-
+    elif user_input == 7:
+        item_option = show_menu("Order Items", order_item_menu)
         if item_option == 1:
-            click.secho("Adding Order Item..........")
             order_id = click.prompt("Enter Order ID")
             product_id = click.prompt("Enter Product ID")
             quantity = click.prompt("Enter quantity")
+            add_order_item(order_id, product_id, quantity)
 
-            try:
-                add_order_item(order_id, product_id, quantity)
-            except:
-                raise Exception ("Failiure in Adding Order Item")
-            
-        if item_option == 2:
-            click.prompt("View Order Items.......")
-            order_items = get_order_items()
-            if order_items:
-                for order_item in order_items:
-                    print(f"{order_item.id} | {order_item.order_id} | {order_item.product_id} | {order_item.quantity}")
+        elif item_option == 2:
+            for oi in get_order_items():
+                print(f"{oi.id} | {oi.order_id} | {oi.product_id} | {oi.quantity}")
 
-        if item_option == 3:
-            click.prompt("Delete Order Item.......")
+        elif item_option == 3:
             item_id = click.prompt("Enter Order Item ID")
-
-            try:
-                delete_order_item(item_id)
-            except:
-                raise Exception ("Failiure in deleting Order Item")
+            delete_order_item(item_id)

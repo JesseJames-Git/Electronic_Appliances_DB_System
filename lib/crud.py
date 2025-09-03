@@ -139,9 +139,14 @@ def update_order_status(order_id, new_order_status):
     order = session.query(Orders).filter_by(id=order_id).first()
 
     if order:
-        order.status = new_order_status
+        order.order_status = new_order_status
+
+        if order.order_status == "Delivered":
+            print(f"Order with ID {order_id} is already 'Delivered'. No update needed.")
+            return
         session.commit()
         print(f"Order status of order with ID {order_id} has been updated successfully.")
+
     else:
         print(f"Order with ID {order_id} has not been updated. Ensure ID is correct")
 
