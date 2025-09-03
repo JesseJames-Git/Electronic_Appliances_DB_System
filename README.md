@@ -6,17 +6,17 @@ It consist of:
 1. A database file containing the data from CRUD Operations(Create, Read, Update, Delete).
 2. A Models file(models.py) that deals with defining the database.
 3. A CRUD file(crud.py) that deals with defining the operations on the operations.
-4. A CLI file(cli.py) that defining the running app.
+4. A CLI file(cli.py) that defining the running app in the Command Line.
 
 - Several test were carried out on the app to ensure good functionality.
 
 ## How to use
-### Requirements:
+### Requirements and Prerequisites:
 - A Computer
 - Basic knowledge of navigating in the command line
-- Python  installed in your computer
+- Python installed in your computer. (Python version 3 recommended)
 
-### Steps:
+### Installation instructions:
 1. Open the terminal in your system and navigate your desired directory.
 
     ``` cd <name_of_desired_directory> ```
@@ -31,22 +31,45 @@ Example:
 3. Navigate to the newly created folder(Electronic_Appliances_DB_System) using this command.
     ``` cd Electronic_Appliances_DB_System ```
 
-4. Run the command below to put your project in a virtual environment.
+### Setup Instructions
+- Firstly, run this command in the command line in this apps directory to install required dependancies and virtual environment.
+    ``` pipenv install ```
+    
+- Run the command below to put your project in a virtual environment.
     ``` pipenv shell ```
 
-5. The following dependancies will be used to  make your app interact with the database: SQLAlchemy, Alembic and Click. Add them to your folder using the command below:
-    ``` pip install sqlalchemy alembic click ```
+- The following dependancies will be used to  make your app interact with the database: SQLAlchemy, Alembic and Click. Add them to your folder using the command below:
+    ``` pipenv install sqlalchemy alembic click ```
 
-6. Run this command to run the CLI app:
+- Run this command to run the CLI app:
     ``` python lib/cli.py ```
 
+- You now have the required step-up of the app. It is ready for usage
 
-- After cloning and setting up the app, ensure you follow the navigational options. 
+### Basic Usage
+- You should see now something like this:
 
-- Feel free to interact with the application using the options given. 
+<img src = "Pictures/Start-up.png"/>
 
-* NOTE :
-- Make deletions and updates carefully to avoid data loss.
+- Ensure you follow the navigational options given. For example if you would like to add a Product use the number of the option. In the product option's case it is option number four. Write the number "4" as it is as shown:
+
+<img src = "Pictures/Selecting_option.png" />
+
+- This will take you to the Product option's various interaction options(Add Product, View all Products and Delete Product) as shown:
+
+<img src = "Pictures/Selected_option.png" />
+
+- To add product simply select the option's number (1) and input the details needed by the app e.g: name, brand, etc.
+
+Example:
+
+<img src = "Pictures/Successful_Operation.png" />
+
+- The product has now been added to the Database successfully. If an error will occur in any of the operations. You shall receive a message on what went wrong during input.
+
+Now feel free to interact with the application using the options given.
+
+* NOTE : Make deletions and updates carefully to maintain data integrity
 
 ## Contact Details
 If you have any questions, contact me through:
@@ -54,7 +77,10 @@ If you have any questions, contact me through:
 - Email: jessejamesjj007@gmail.com
 
 ## Author
-The entire project was done by Jesse James Kang'ethe Macibi.
+- The entire project was done by Jesse James Kang'ethe Macibi (Developer in learning).
+- If you have any questions on issues on the app or if you would like to make contributions to the app, contact me through my email.
+
+Email: jessejamesjj007@gmail.com
 
 ## License
 MIT License
