@@ -102,8 +102,9 @@ while True:
 
         elif supplier_option == 2:
             suppliers = get_suppliers()
-            for s in suppliers:
-                print(f"{s.id} | {s.name} | {s.email} | {s.phone} | {s.address}")
+            print("Supplier Id |     Name     |      Email      |    Phone    |  Address")
+            for s in suppliers:    
+                print(f"      {s.id}      | {s.name} | {s.email} | {s.phone} | {s.address}")
 
         elif supplier_option == 3:
             supplier_name = click.prompt("Enter the name of supplier")
@@ -119,8 +120,9 @@ while True:
             add_supply_order(prod_id, quantity, supplier, status="Not Delivered")
 
         elif supply_order_option == 2:
-            for so in get_all_supply_orders():
-                print(f"{so.id} | {so.quantity} | {so.supplier_id} | {so.status}")
+            print("Supply Order ID |   Quantity    | Supplier ID      | Order status")
+            for so in get_all_supply_orders():    
+                print(f"       {so.id}       | {so.quantity} | {so.supplier_id} | {so.status}")
 
         elif supply_order_option == 3:
             supply_order_id = click.prompt("Enter Supply Order Id")
@@ -140,8 +142,9 @@ while True:
             add_product_category(name, quantity_in_stock, description)
 
         elif category_option == 2:
+            print("Category ID  |    Name    |  Quantity in stock  |  Description")
             for pc in get_product_categories():
-                print(f"{pc.id} | {pc.name} | {pc.quantity_in_stock} | {pc.description}")
+                print(f"     {pc.id}      | {pc.name} | {pc.quantity_in_stock} | {pc.description}")
 
         elif category_option == 3:
             name = click.prompt("Enter Existing Category Name")
@@ -160,8 +163,9 @@ while True:
             add_product(name, brand, price, availability, category_id, description)
 
         elif product_option == 2:
+            print("Prod_ID |    Name    |  Brand  |   Price   | Availability | Category ID | Description")
             for p in get_all_products():
-                print(f"{p.id} | {p.name} | {p.brand} | {p.price} | {p.availability} | {p.category_id} | {p.description}")
+                print(f"   {p.id}    | {p.name} | {p.brand} | {p.price} | {p.availability} | {p.category_id} | {p.description}")
 
         elif product_option == 3:
             product_name = click.prompt("Enter Product Name")
@@ -179,8 +183,9 @@ while True:
             add_customer(first_name, last_name, email, phone, address)
 
         elif customer_option == 2:
+            print("Customer ID | First Name | Last Name | Email | Phone | Address")
             for c in get_customers():
-                print(f"{c.id} | {c.first_name} | {c.last_name} | {c.email} | {c.phone} | {c.address}")
+                print(f"    {c.id}     | {c.first_name} | {c.last_name} | {c.email} | {c.phone} | {c.address}")
 
         elif customer_option == 3:
             customer_first_name = click.prompt("Enter Customer's First Name")
@@ -196,8 +201,9 @@ while True:
             add_order(customer_id, order_date, order_status="Not Delivered")
 
         elif order_option == 2:
+            print("Order ID | Customer ID |  Order Date  | Order Status")
             for o in get_orders():
-                print(f"{o.id} | {o.customer_id} | {o.order_date} | {o.order_status}")
+                print(f"    {o.id}    | {o.customer_id} | {o.order_date} | {o.order_status}")
 
         elif order_option == 3:
             order_id = click.prompt("Enter Order ID")
@@ -217,8 +223,9 @@ while True:
             add_order_item(order_id, product_id, quantity)
 
         elif item_option == 2:
+            print("Order Item ID | Order ID | Product ID | Quantity")
             for oi in get_order_items():
-                print(f"{oi.id} | {oi.order_id} | {oi.product_id} | {oi.quantity}")
+                print(f"        {oi.id}         | {oi.order_id} | {oi.product_id} | {oi.quantity}")
 
         elif item_option == 3:
             item_id = click.prompt("Enter Order Item ID")
