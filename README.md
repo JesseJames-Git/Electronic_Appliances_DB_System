@@ -69,7 +69,11 @@ Example:
 
 Now feel free to interact with the application using the options given.
 
-* NOTE : Make deletions and updates carefully to maintain data integrity
+* NOTE :
+- If you would like to exit the app or an operation press ctrl + z.
+- This app does not accept inline editing. If you have made a mistake in input, you have to erase the input value entirely using backspace.
+- Make deletions and updates carefully to maintain data integrity.
+
 
 ## Author
 - The entire project was done by Jesse James Kang'ethe Macibi (Developer in learning).

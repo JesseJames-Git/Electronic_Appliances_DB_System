@@ -1,4 +1,3 @@
 .venv/
-lib/db/migrations
-lib/db/alembic.ini
 lib/db/company_system.db
+company_system.db
