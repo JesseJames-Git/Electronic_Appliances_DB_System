@@ -1,11 +1,30 @@
 from db.models import Supply_orders, Suppliers, Product_category, Product, Customers, Orders, Order_items, session
 
+def id_validation(model, id, label=None):
+    obj = session.query(model).filter_by(id=id).first()
+    if not obj:
+        model_name = label or model.__name__
+        print(f"Invalid {model_name} ID {id}")
+        return None
+    return obj
+
+
 # -------------------------------------------------Supply_orders CRUD-----------------------------------------------------------
 
 def add_supply_order (product_id, quantity, supplier_id, status ):
-    new_supply_order = Supply_orders(product_id = product_id, quantity=quantity, supplier_id=supplier_id, status=status)
-    session.add(new_supply_order)
-    session.commit()
+
+    product = id_validation(Product, product_id, "Product")
+    supplier = id_validation(Suppliers, supplier_id, "Suppliers")
+
+    if not product or not supplier:
+        return
+
+    if 1 <= quantity <= 100:
+        new_supply_order = Supply_orders(product_id = product_id, quantity=quantity, supplier_id=supplier_id, status=status)
+        session.add(new_supply_order)
+        session.commit()
+    else:
+        print("Enter valid quantity (Greater than 0 and less than 100)")
 
 def get_all_supply_orders():
     return session.query(Supply_orders).all()
@@ -39,10 +58,20 @@ def delete_supply_order(supply_order_id):
 
 # ---------------------------------------------------Suppliers CRUD-------------------------------------------------------------
 def add_supplier(name, email, phone, address):
-    new_supplier = Suppliers(name=name, email=email, phone=phone, address=address)
-    session.add(new_supplier)
-    session.commit()
-    print(f"{new_supplier.name} has been added successfully")
+    if len(name) <= 25 and len(phone) == 10:
+        new_supplier = Suppliers(name=name, email=email, phone=phone, address=address)
+        session.add(new_supplier)
+        session.commit()
+        print(f"{new_supplier.name} has been added successfully")
+
+    elif len(name) >25:
+        print("Supplier has not been added!!!")
+        print("Name should not be more than 25 characters")
+
+    elif len(phone) > 10:
+        print("Supplier has not been added!!!")
+        print("Phone number should not be 10 digits")
+        
 
 def get_suppliers():
     return session.query(Suppliers).all()
@@ -61,10 +90,17 @@ def delete_supplier(supplier_name):
 
 # ---------------------------------------------------Product_category CRUD-----------------------------------------------------
 def add_product_category(name, quantity_in_stock, description):
-    new_product_category = Product_category(name=name, quantity_in_stock=quantity_in_stock, description=description)
-    session.add(new_product_category)
-    session.commit()
-    print(f"{new_product_category.name} has been added successfully")
+    if len(name) <= 25 and len(description) <= 200 and description.isalnum() :
+        new_product_category = Product_category(name=name, quantity_in_stock=quantity_in_stock, description=description)
+        session.add(new_product_category)
+        session.commit()
+        print(f"{new_product_category.name} has been added successfully")
+    elif len(name) > 25:
+        print("Product Category not added!!!")
+        print("Category name must be less than or equal to 25 characters long")
+    elif len(description) > 200 and not description.isalnum():
+        print("Product Category not added!!!")
+        print("Description must be less than or equal to 200 alphanumeric characters long")
 
 def get_product_categories():
     return session.query(Product_category).all()
@@ -83,10 +119,28 @@ def delete_product_category(product_category_name):
 
 # ----------------------------------------------------Product CRUD-------------------------------------------------------------
 def add_product(name, brand, price, availability, category_id, description):
-    new_product = Product(name=name, brand=brand, price=price, availability=availability, category_id=category_id, description=description)
-    session.add(new_product)
-    session.commit()
-    print(f"{new_product.name} has been added successfully")
+
+    category = id_validation(Product_category, category_id, "Product_category")
+    if not category:
+        return
+
+    if len(name) <= 25 and len(brand) <= 25 and price < 1000000 and description <= 200 :
+        new_product = Product(name=name, brand=brand, price=price, availability=availability, category_id=category_id, description=description)
+        session.add(new_product)
+        session.commit()
+        print(f"{new_product.name} has been added successfully")
+    elif len(name) > 25:
+        print("Product has not been added")
+        print("Name must be less than or equal to 25 characters long(Space inclusive)")
+    elif len(brand) > 25:
+        print("Product has not been added")
+        print("Brand must be less than or equal to 25 characters long(Space inclusive)")
+    elif price >= 1000000:
+        print("Product has not been added")
+        print("Price must be less than 1,000,000")
+    elif description > 200:
+        print("Product has not been added")
+        print("Description must be less than or equal to 200 characters long(Space inclusive)")
 
 def get_all_products():
     return session.query(Product).all()
@@ -105,10 +159,17 @@ def delete_product(product_name):
 
 # ------------------------------------------------------Customers CRUD---------------------------------------------------------
 def add_customer(first_name, last_name, email, phone, address):
-    new_customer = Customers(first_name=first_name, last_name=last_name, email=email, phone=phone, address=address)
-    session.add(new_customer)
-    session.commit()
-    print(f"{new_customer.first_name} {new_customer.last_name} has been added successfully")
+    if len(first_name) <= 12 and len(last_name) <= 12 and len(phone) == 10 :
+        new_customer = Customers(first_name=first_name, last_name=last_name, email=email, phone=phone, address=address)
+        session.add(new_customer)
+        session.commit()
+        print(f"{new_customer.first_name} {new_customer.last_name} has been added successfully")
+    elif len(first_name) > 12 and len(last_name) > 12:
+        print("Customer has not been added")
+        print("Names must each be less than or equal to 12 characters long")
+    elif len(phone) != 10:
+        print("Customer has not been added")
+        print("Phone number must be 10 characters long")
 
 def get_customers():
     return session.query(Customers).all()
@@ -127,6 +188,12 @@ def delete_customer(customer_first_name):
 
 # -------------------------------------------------------Orders CRUD-----------------------------------------------------------
 def add_order(customer_id, order_date, order_status):
+
+    customer = id_validation(Customers, customer_id, "Customers")
+
+    if not customer:
+        return
+
     new_order = Orders(customer_id=customer_id, order_date=order_date, order_status=order_status)
     session.add(new_order)
     session.commit()
@@ -163,6 +230,11 @@ def delete_order(order_id):
 
 # -------------------------------------------------------Order_items CRUD------------------------------------------------------
 def add_order_item(order_id, product_id, quantity):
+    product = id_validation(Product, product_id, "Product")
+
+    if not product:
+        return
+    
     new_order_item = Order_items(order_id=order_id, product_id=product_id, quantity=quantity)
     session.add(new_order_item)
     session.commit()
