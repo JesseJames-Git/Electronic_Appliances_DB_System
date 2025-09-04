@@ -94,9 +94,9 @@ while True:
     if user_input == 1:
         supplier_option = show_menu("Suppliers' Options", supplier_menu)
         if supplier_option == 1:
-            name = click.prompt("Enter name")
+            name = click.prompt("Enter name(25 characters long)")
             email = click.prompt("Enter email")
-            phone = click.prompt("Enter phone")
+            phone = click.prompt("Enter phone(10 digits long)")
             address = click.prompt("Enter Address")
             add_supplier(name, email, phone, address)
 
@@ -136,9 +136,9 @@ while True:
     elif user_input == 3:
         category_option = show_menu("Product Categories", product_category_menu)
         if category_option == 1:
-            name = click.prompt("Enter category name")
+            name = click.prompt("Enter category name(25 characters long)")
             quantity_in_stock = click.prompt("Enter Stock Quantity")
-            description = click.prompt("Describe the Category")
+            description = click.prompt("Describe the Category(200 characters long)")
             add_product_category(name, quantity_in_stock, description)
 
         elif category_option == 2:
@@ -154,12 +154,12 @@ while True:
     elif user_input == 4:
         product_option = show_menu("Products", product_menu)
         if product_option == 1:
-            name = click.prompt("Enter Product Name")
-            brand = click.prompt("Enter Brand Name")
+            name = click.prompt("Enter Product Name(25 characters long)")
+            brand = click.prompt("Enter Brand Name(25 characters long)")
             price = click.prompt("Enter product price")
             availability = click.confirm("Is the product available?", default=True)
-            category_id = click.prompt("Enter Category ID (Optional)")
-            description = click.prompt("Enter Description (Optional)")
+            category_id = click.prompt("Enter Category ID")
+            description = click.prompt("Enter Description (200 characters long)")
             add_product(name, brand, price, availability, category_id, description)
 
         elif product_option == 2:
@@ -175,11 +175,11 @@ while True:
     elif user_input == 5:
         customer_option = show_menu("Customers", customer_menu)
         if customer_option == 1:
-            first_name = click.prompt("Enter first name")
-            last_name = click.prompt("Enter last name")
+            first_name = click.prompt("Enter first name (12 characters)")
+            last_name = click.prompt("Enter last name (12 characters)")
             email = click.prompt("Enter email")
-            phone = click.prompt("Enter phone number(Optional)")
-            address = click.prompt("Enter Address(Optional)")
+            phone = click.prompt("Enter phone number(10 characters long)")
+            address = click.prompt("Enter Address")
             add_customer(first_name, last_name, email, phone, address)
 
         elif customer_option == 2:
