@@ -38,11 +38,17 @@ Example:
 2. Run the command below to put your project in a virtual environment.
     ``` pipenv shell ```
 
+3. Navigate to the db file:
+    ``` cd lib/db/ ```
+
 3. Run the command below to create the database.
     ``` alembic upgrade head ```
 
+4. Navigate a directory upwards:
+    ``` cd .. ```
+
 - Run this command to run the CLI app:
-    ``` python lib/cli.py ```
+    ``` python cli.py ```
 
 - You now have the required step-up of the app. It is ready for usage
 
