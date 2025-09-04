@@ -32,14 +32,14 @@ Example:
     ``` cd Electronic_Appliances_DB_System ```
 
 ### Setup Instructions
-- Firstly, run this command in the command line in this apps directory to install required dependancies and virtual environment.
+1. Firstly, run this command in the command line in this apps directory to install required dependancies and virtual environment.
     ``` pipenv install ```
 
-- Run the command below to put your project in a virtual environment.
+2. Run the command below to put your project in a virtual environment.
     ``` pipenv shell ```
 
-- The following dependancies will be used to  make your app interact with the database: SQLAlchemy, Alembic and Click. Add them to your folder using the command below:
-    ``` pipenv install sqlalchemy alembic click ```
+3. Run the command below to create the database.
+    ``` alembic upgrade head ```
 
 - Run this command to run the CLI app:
     ``` python lib/cli.py ```
