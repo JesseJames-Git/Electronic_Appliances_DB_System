@@ -10,13 +10,16 @@ It consist of:
 
 - Several test were carried out on the app to ensure good functionality.
 
-## How to use
-### Requirements and Prerequisites:
+
+## Requirements and Prerequisites:
 - A Computer
 - Basic knowledge of navigating in the command line
 - Python installed in your computer. (Python version 3 recommended)
+- Sqlite installed in your computer
+- Google Chrome(Not required for the running of the app but for viewing the database )
 
-### Installation instructions:
+
+## Installation instructions:
 1. Open the terminal in your system and navigate your desired directory.
 
     ``` cd <name_of_desired_directory> ```
@@ -31,7 +34,8 @@ Example:
 3. Navigate to the newly created folder(Electronic_Appliances_DB_System) using this command.
     ``` cd Electronic_Appliances_DB_System ```
 
-### Setup Instructions
+
+## Setup Instructions
 1. Firstly, run this command in the command line in this apps directory to install required dependancies and virtual environment.
     ``` pipenv install ```
 
@@ -55,7 +59,8 @@ Example:
 
 - You now have the required step-up of the app. It is ready for usage
 
-### Basic Usage
+
+## Basic Usage
 - You should see now something like this:
 
 <img src = "Pictures/Start-up.png"/>
@@ -78,10 +83,18 @@ Example:
 
 Now feel free to interact with the application using the options given.
 
-* NOTE :
+### NOTE :
 - If you would like to exit the app or an operation press ctrl + z.
 - This app does not accept inline editing. If you have made a mistake in input, you have to erase the input value entirely using backspace.
 - Make deletions and updates carefully to maintain data integrity.
+
+
+## Viewing the Database
+This database is made using sqlite hence there are multiple ways of viewing it.
+
+My preferred method is by using an extension on google chrome called <a href url="https://chromewebstore.google.com/detail/sqlite-browser/iclckldkfemlnecocpphinnplnmijkol">SQlite Browser<a href>.
+- Install the extension and in it simply browse your files till ou get your .db file ;in this case "company_system.db".
+- Select the file to see the database file shown in the browser.
 
 
 ## Author
@@ -89,6 +102,7 @@ Now feel free to interact with the application using the options given.
 - If you have any questions on issues on the app or if you would like to make contributions to the app, contact me through my email.
 
 Email: jessejamesjj007@gmail.com
+
 
 ## License
 MIT License
