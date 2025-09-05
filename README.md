@@ -92,7 +92,7 @@ Now feel free to interact with the application using the options given.
 ## Viewing the Database
 This database is made using sqlite hence there are multiple ways of viewing it.
 
-My preferred method is by using an extension on google chrome called <a href ="https://chromewebstore.google.com/detail/sqlite-browser/iclckldkfemlnecocpphinnplnmijkol" target="_blank" rel="noreferrer noopener"> SQlite Browser </a> .
+My preferred method is by using an extension on google chrome called <a href ="https://chromewebstore.google.com/detail/sqlite-browser/iclckldkfemlnecocpphinnplnmijkol" target="_blank" rel="noopener noreferrer"> SQlite Browser </a> .
 - Install the extension and in it simply browse your files till you get your .db file ; in this case "company_system.db".
 - Select the file to see the database file shown in the browser.
 
