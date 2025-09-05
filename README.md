@@ -47,7 +47,10 @@ Example:
 4. Navigate a directory upwards:
     ``` cd .. ```
 
-- Run this command to run the CLI app:
+5. - Run this command to some data to work with in the database:
+    ``` python seed.py ```
+
+6. Run this command to run the CLI app:
     ``` python cli.py ```
 
 - You now have the required step-up of the app. It is ready for usage
